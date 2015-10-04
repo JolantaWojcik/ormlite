@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Menu</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string-array name="titels">
+        <item>Fragment 1</item>
+        <item>Fragment 2</item>
+    </string-array>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="ed_hint">Podaj link</string>
+    <string name="blad">Podany link jest niepoprawny</string>
+    <string name="sukces">Dodano link</string>
+    <string name="bladB">Wystąpiły problemy z dodaniem linku</string>
+</resources>

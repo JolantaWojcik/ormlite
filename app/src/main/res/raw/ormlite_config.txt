@@ -1,0 +1,20 @@
+#
+# generated on 2015/10/03 11:28:57
+#
+# --table-start--
+dataClass=com.example.jola.zadanie.DbItem
+tableName=dbitem
+# --table-fields-start--
+# --field-start--
+fieldName=id
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=longUrl
+# --field-end--
+# --field-start--
+fieldName=shortUrl
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################

@@ -16,7 +16,7 @@ import com.j256.ormlite.dao.Dao;
 import cz.msebera.android.httpclient.*;
 import cz.msebera.android.httpclient.client.HttpClient;
 import cz.msebera.android.httpclient.client.methods.HttpGet;
-import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
+import cz.msebera.android.httpclient.impl.client.HttpClientBuilder;
 import cz.msebera.android.httpclient.util.EntityUtils;
 
 import java.io.IOException;
@@ -61,9 +61,9 @@ public class Fragment_1 extends SherlockFragment {
         }
     }
 
-    private class LoadUrl extends AsyncTask<String, Void, Boolean>{
+    private class LoadUrl extends AsyncTask<String, Void, Void>{
         @Override
-        protected Boolean doInBackground(String... params) {
+        protected Void doInBackground(String... params) {
             String userUrl = params[0];
             String staticUrl = "http://to.ly//api.php?longurl=";
             String url = staticUrl + userUrl;
@@ -71,7 +71,7 @@ public class Fragment_1 extends SherlockFragment {
 
             try {
                 HttpGet httpget = new HttpGet(url);
-                HttpClient httpclient = new DefaultHttpClient();
+                HttpClient httpclient = HttpClientBuilder.create().build();
                 HttpResponse response = httpclient.execute(httpget);
                 HttpEntity entity = response.getEntity();
                 shortUrl = EntityUtils.toString(entity);
@@ -80,24 +80,12 @@ public class Fragment_1 extends SherlockFragment {
                 Dao <DbItem, Integer> dao = dbHelper.getDao();
                 dao.create(new DbItem(userUrl, shortUrl));
 
-                return true;
             } catch (IOException e) {
                 e.printStackTrace();
             }catch (SQLException e) {
                 e.printStackTrace();
             }
-
-            return false;
-        }
-
-        @Override
-        protected void onPostExecute(Boolean aBoolean) {
-            super.onPostExecute(aBoolean);
-            if(aBoolean == true){
-                Toast.makeText(getActivity(), R.string.sukces, Toast.LENGTH_LONG).show();
-            }else{
-                Toast.makeText(getActivity(), R.string.bladB, Toast.LENGTH_LONG).show();
-            }
+            return null;
         }
     }
 }

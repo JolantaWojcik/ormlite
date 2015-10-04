@@ -33,8 +33,7 @@ public class DbItem {
         this.shortUrl = shortUrl;
     }
 
-    public DbItem(){
-
+    public DbItem() {
     }
 
     public DbItem(String longUrl, String shortUrl) {

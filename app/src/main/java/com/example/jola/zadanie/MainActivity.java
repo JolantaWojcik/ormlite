@@ -1,9 +1,9 @@
 package com.example.jola.zadanie;
 
 import android.content.res.Configuration;
+import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v4.app.ActionBarDrawerToggle;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,8 +18,8 @@ public class MainActivity extends SherlockFragmentActivity {
     private ListView listView;
     private ActionBarDrawerToggle drawerToggle;
 
-    Fragment_1 fragment1;
-    Fragment_2 fragment2;
+    private Fragment_1 fragment1;
+    private Fragment_2 fragment2;
     private CharSequence drawTitle;
     private CharSequence title;
     private String[] rTitle;
@@ -40,38 +40,27 @@ public class MainActivity extends SherlockFragmentActivity {
         listView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_activated_1, rTitle));
         listView.setOnItemClickListener(new DrawerItemClickListener());
 
-        drawerToggle = new ActionBarDrawerToggle(
-                this,                  /* host Activity */
-                drawerLayout,         /* DrawerLayout object */
-                android.R.drawable.ic_input_add,  /* nav drawer icon to replace 'Up' caret */
-                0,  /* "open drawer" description */
-                0  /* "close drawer" description */
-        ) {
+        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, android.R.drawable.ic_input_add, 0,0) {
 
-            /** Called when a drawer has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
                 getActionBar().setTitle(title);
             }
 
-            /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
                 getActionBar().setTitle(drawTitle);
             }
         };
 
-        // Set the drawer toggle as the DrawerListener
         drawerLayout.setDrawerListener(drawerToggle);
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
-      //  getActionBar().setHomeButtonEnabled(true);
     }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        // Sync the toggle state after onRestoreInstanceState has occurred.
         drawerToggle.syncState();
     }
 
@@ -90,7 +79,6 @@ public class MainActivity extends SherlockFragmentActivity {
 
     private void selectItem(int position) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        // Locate Position
         switch (position) {
             case 0:
                 ft.replace(R.id.content_frame, fragment1);
@@ -102,9 +90,7 @@ public class MainActivity extends SherlockFragmentActivity {
         ft.commit();
         listView.setItemChecked(position, true);
 
-        // Get the title followed by the position
         setTitle(rTitle[position]);
-        // Close drawer
         drawerLayout.closeDrawer(listView);
     }
 

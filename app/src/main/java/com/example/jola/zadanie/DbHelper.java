@@ -18,7 +18,7 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
     private static final String DATABASE_NAME = "links.db";
     private static final int DATABASE_VERSION = 1;
 
-    Dao<DbItem, Integer> singleLvItem = null;
+    Dao<DbItem, Integer> dao = null;
 
     public DbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION, R.raw.ormlite_config);
@@ -44,13 +44,13 @@ public class DbHelper extends OrmLiteSqliteOpenHelper {
     }
 
     public Dao<DbItem, Integer> getDao(){
-        if(singleLvItem == null){
+        if(dao == null){
             try {
-                singleLvItem = getDao(DbItem.class);
+                dao = getDao(DbItem.class);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
-        return singleLvItem;
+        return dao;
     }
 }

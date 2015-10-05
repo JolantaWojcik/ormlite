@@ -55,6 +55,7 @@ public class MainActivity extends SherlockFragmentActivity {
 
         drawerLayout.setDrawerListener(drawerToggle);
 
+        getSupportActionBar().setIcon(android.R.color.transparent);
         getActionBar().setDisplayHomeAsUpEnabled(true);
     }
 

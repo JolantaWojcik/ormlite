@@ -40,7 +40,6 @@ public class Fragment_2 extends SherlockListFragment {
             map.put("longUrl", dbItem.getLongUrl());
             map.put("shortUrl", dbItem.getShortUrl());
             listOfLinks.add(map);
-            Log.d("data2", String.valueOf(listOfLinks));
         }
 
         String[] from = {"longUrl", "shortUrl"};

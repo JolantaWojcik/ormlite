@@ -1,7 +1,6 @@
 package com.example.jola.zadanie;
 
 import android.content.res.Configuration;
-import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.os.Bundle;
@@ -9,6 +8,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import android.support.v4.app.ActionBarDrawerToggle;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 

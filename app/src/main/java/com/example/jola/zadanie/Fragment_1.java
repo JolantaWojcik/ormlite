@@ -14,6 +14,7 @@ import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 
 import cz.msebera.android.httpclient.*;
+import cz.msebera.android.httpclient.client.ClientProtocolException;
 import cz.msebera.android.httpclient.client.HttpClient;
 import cz.msebera.android.httpclient.client.methods.HttpGet;
 import cz.msebera.android.httpclient.impl.client.HttpClientBuilder;
@@ -61,9 +62,10 @@ public class Fragment_1 extends SherlockFragment {
         }
     }
 
-    private class LoadUrl extends AsyncTask<String, Void, Void>{
+    private class LoadUrl extends AsyncTask<String, Void, Boolean>{
+
         @Override
-        protected Void doInBackground(String... params) {
+        protected Boolean doInBackground(String... params) {
             String userUrl = params[0];
             String staticUrl = "http://to.ly//api.php?longurl=";
             String url = staticUrl + userUrl;
@@ -77,15 +79,27 @@ public class Fragment_1 extends SherlockFragment {
                 shortUrl = EntityUtils.toString(entity);
 
                 dbHelper = OpenHelperManager.getHelper(getActivity(), DbHelper.class);
-                Dao <DbItem, Integer> dao = dbHelper.getDao();
+                Dao<DbItem, Integer> dao = dbHelper.getDao();
                 dao.create(new DbItem(userUrl, shortUrl));
 
+                return true;
+            } catch (ClientProtocolException e) {
+                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }catch (SQLException e) {
                 e.printStackTrace();
             }
-            return null;
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            if(aBoolean == true){
+                Toast.makeText(getActivity(), R.string.sukces, Toast.LENGTH_LONG).show();
+            }else{
+                Toast.makeText(getActivity(), R.string.bladB, Toast.LENGTH_LONG).show();
+            }
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.example.jola.zadanie;
 
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -30,6 +31,7 @@ public class Fragment_1 extends SherlockFragment {
     private String correctUrl;
     private DbHelper dbHelper;
     private ImageButton button;
+    private ProgressDialog progressDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -64,6 +66,17 @@ public class Fragment_1 extends SherlockFragment {
 
     private class LoadUrl extends AsyncTask<String, Void, Boolean>{
 
+        String errorMessage;
+
+        @Override
+        protected void onPreExecute() {
+            progressDialog = new ProgressDialog(getActivity());
+            progressDialog.setTitle(R.string.pg_title);
+            progressDialog.setMessage("Dodawanie...");
+            progressDialog.setIndeterminate(false);
+            progressDialog.show();
+        }
+
         @Override
         protected Boolean doInBackground(String... params) {
             String userUrl = params[0];
@@ -75,14 +88,17 @@ public class Fragment_1 extends SherlockFragment {
                 HttpGet httpget = new HttpGet(url);
                 HttpClient httpclient = HttpClientBuilder.create().build();
                 HttpResponse response = httpclient.execute(httpget);
-                HttpEntity entity = response.getEntity();
-                shortUrl = EntityUtils.toString(entity);
+                int status = response.getStatusLine().getStatusCode();
+                errorMessage = String.valueOf(status);
+                if(status == 200) {
+                    HttpEntity entity = response.getEntity();
+                    shortUrl = EntityUtils.toString(entity);
+                    dbHelper = OpenHelperManager.getHelper(getActivity(), DbHelper.class);
+                    Dao<DbItem, Integer> dao = dbHelper.getDao();
+                    dao.create(new DbItem(userUrl, shortUrl));
 
-                dbHelper = OpenHelperManager.getHelper(getActivity(), DbHelper.class);
-                Dao<DbItem, Integer> dao = dbHelper.getDao();
-                dao.create(new DbItem(userUrl, shortUrl));
-
-                return true;
+                    return true;
+                }
             } catch (ClientProtocolException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -95,10 +111,11 @@ public class Fragment_1 extends SherlockFragment {
 
         @Override
         protected void onPostExecute(Boolean aBoolean) {
+            progressDialog.dismiss();
             if(aBoolean == true){
                 Toast.makeText(getActivity(), R.string.sukces, Toast.LENGTH_LONG).show();
             }else{
-                Toast.makeText(getActivity(), R.string.bladB, Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "Error: " + errorMessage, Toast.LENGTH_LONG).show();
             }
         }
     }

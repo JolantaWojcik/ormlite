@@ -12,6 +12,7 @@
     <string name="ed_hint">Podaj link</string>
     <string name="blad">Podany link jest niepoprawny</string>
     <string name="sukces">Dodano link</string>
-    <string name="bladB">Wystąpił błąd</string>
+    <string name="bladB">Wystąpił błąd \n</string>
     <string name="menu_title">Drawer layout</string>
+    <string name="pg_title">Proszę czekać</string>
 </resources>
